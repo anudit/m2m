@@ -15,52 +15,52 @@ import urllib
 import re
 
 def parseArticle(soup):
-    samples = soup.find_all("div", "section-inner")
-    tags = samples[0].find_all(['h1','h2','h3','h4','ol','ul','blockquote','figure','p', 'pre'])
-
+    sec = soup.find_all("div", "section-inner")
     doc = ""
-
-    for i in tags:
-        #print(i.name)
-        if (i.name == "h1"):
-            doc+=("# " + i.getText() + "\n")
-        elif (i.name == "h2"):
-            doc+=("## " + i.getText() + "\n")
-        elif (i.name == "h3"):
-            doc+=("## " + i.getText() + "\n")
-        elif (i.name == "h4"):
-            doc+=("### " + i.getText() + "\n")
-        elif (i.name == "h5"):
-            doc+=("#### " + i.getText() + "\n")
-        elif (i.name == "h6"):
-            doc+=("##### " + i.getText() + "\n")
-        elif (i.name == "p"):
-            doc+=(i.getText() + "\n\n")
-        elif (i.name == "blockquote"):
-            doc+=(">" + i.getText() + "\n\n")
-        elif (i.name == "figure"):
-            im = i.find("img")
-            doc+=("![](" +im['src'] +")" + "\n\n")
-        elif (i.name == "ol"):
-            doc+="\n"
-            lilist = i.find_all('li')
-            for t in range(len(lilist)):
-                doc+=(str(t+1) +". " + lilist[t].getText() + "\n")
-            doc+="\n"
-        elif (i.name == "ul"):
-            doc+="\n"
-            lilist = i.find_all('li')
-            for t in range(len(lilist)):
-                doc+=("- " + lilist[t].getText() + "\n")
-            doc+="\n"
-        elif (i.name == "pre"):
-            doc+="\n"
-            doc+="```\n"
-            for e in i.contents:
-                if(type(e) == bs4.element.NavigableString):
-                    doc+=str(e)+"\n"
-            doc+= "``` \n"
-
+    for secIndex in range(len(sec)):
+        tags = sec[secIndex].find_all(['h1','h2','h3','h4','ol','ul','blockquote','figure','p', 'pre', 'hr'])
+        for i in tags:
+            #print(i.name)
+            if (i.name == "h1"):
+                doc+=("# " + i.getText() + "\n")
+            elif (i.name == "h2"):
+                doc+=("## " + i.getText() + "\n")
+            elif (i.name == "h3"):
+                doc+=("## " + i.getText() + "\n")
+            elif (i.name == "h4"):
+                doc+=("### " + i.getText() + "\n")
+            elif (i.name == "h5"):
+                doc+=("#### " + i.getText() + "\n")
+            elif (i.name == "h6"):
+                doc+=("##### " + i.getText() + "\n")
+            elif (i.name == "p"):
+                doc+=(i.getText() + "\n\n")
+            elif (i.name == "blockquote"):
+                doc+=(">" + i.getText() + "\n\n")
+            elif (i.name == "figure"):
+                im = i.find("img")
+                doc+=("![](" +im['src'] +")" + "\n\n")
+            elif (i.name == "ol"):
+                doc+="\n"
+                lilist = i.find_all('li')
+                for t in range(len(lilist)):
+                    doc+=(str(t+1) +". " + lilist[t].getText() + "\n")
+                doc+="\n"
+            elif (i.name == "ul"):
+                doc+="\n"
+                lilist = i.find_all('li')
+                for t in range(len(lilist)):
+                    doc+=("- " + lilist[t].getText() + "\n")
+                doc+="\n"
+            elif (i.name == "pre"):
+                doc+="\n"
+                doc+="```\n"
+                for e in i.contents:
+                    if(type(e) == bs4.element.NavigableString):
+                        doc+=str(e)+"\n"
+                doc+= "``` \n"
+            elif (i.name == "hr"):
+                doc+="\n---\n"
     return doc
 
 LINK = input("Medium Article Link : ")
