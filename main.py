@@ -1,7 +1,6 @@
 '''
 TEST DATA:
 
-
 https://medium.com/textileio/five-projects-that-are-decentralizing-the-web-in-slightly-different-ways-debf0fda286a
 
 https://medium.com/@jimmysong/why-blockchain-is-hard-60416ea4c5c"
@@ -14,7 +13,7 @@ from urllib.parse import urlparse
 import os
 import urllib
 
-def genArticle(soup):
+def parseArticle(soup):
     samples = soup.find_all("div", "section-inner")
     tags = samples[0].find_all(['h1','h2','h3','h4','ol','blockquote','figure','p'])
 
@@ -62,17 +61,30 @@ result = requests.get(LINK)
 soup = BeautifulSoup(result.content, features="html.parser")
 FILENAME = "./Articles/" + soup.title.string + ".md"
 
+if(os.path.exists("Articles") != True):
+    os.mkdir("Articles")
+
 if (os.path.exists(FILENAME) == True):
     ans = input("Article already exists, download again? (Y/N) ")
     if (ans.lower() == "y"):
         try:
             with open(FILENAME, "w", encoding="utf8") as file:     
                 print("Parsing Article")
-                file.write(genArticle(soup))
+                file.write(parseArticle(soup))
                 print("Done, Happy Reading!")  
-                
+
         except IOError:
             print("[File Error] Can't write to File.")
             exit()
     else:
+        exit()
+else:
+    try:
+        with open(FILENAME, "w", encoding="utf8") as file:     
+            print("Parsing Article")
+            file.write(parseArticle(soup))
+            print("Done, Happy Reading!")  
+
+    except IOError:
+        print("[File Error] Can't write to File.")
         exit()
