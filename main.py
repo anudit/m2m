@@ -26,13 +26,13 @@ def parseArticle(soup):
         elif (i.name == "h2"):
             doc+=("## " + i.getText() + "\n")
         elif (i.name == "h3"):
-            doc+=("### " + i.getText() + "\n")
+            doc+=("## " + i.getText() + "\n")
         elif (i.name == "h4"):
-            doc+=("#### " + i.getText() + "\n")
+            doc+=("### " + i.getText() + "\n")
         elif (i.name == "h5"):
-            doc+=("##### " + i.getText() + "\n")
+            doc+=("#### " + i.getText() + "\n")
         elif (i.name == "h6"):
-            doc+=("###### " + i.getText() + "\n")
+            doc+=("##### " + i.getText() + "\n")
         elif (i.name == "p"):
             doc+=(i.getText() + "\n\n")
         elif (i.name == "blockquote"):
@@ -72,7 +72,6 @@ if (os.path.exists(FILENAME) == True):
                 print("Parsing Article")
                 file.write(parseArticle(soup))
                 print("Done, Happy Reading!")  
-
         except IOError:
             print("[File Error] Can't write to File.")
             exit()
@@ -84,7 +83,6 @@ else:
             print("Parsing Article")
             file.write(parseArticle(soup))
             print("Done, Happy Reading!")  
-
     except IOError:
         print("[File Error] Can't write to File.")
         exit()
