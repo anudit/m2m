@@ -1,2 +1,3 @@
-# m2m
-Converts A Medium article to Markdown
+# Converts A Medium article to Markdown
+
+Use `python main.py` to convert any medium article to Markdown.
