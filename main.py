@@ -40,6 +40,18 @@ def parseArticle(soup):
         elif (i.name == "figure"):
             im = i.find("img")
             doc+=("![](" +im['src'] +")" + "\n\n")
+        elif (i.name == "ol"):
+            doc+="\n"
+            lilist = i.find_all('li')
+            for i in range(len(lilist)):
+                doc+=(str(i+1) +". " + lilist[i].getText() + "\n")
+            doc+="\n"
+        elif (i.name == "ul"):
+            doc+="\n"
+            lilist = i.find_all('li')
+            for i in range(len(lilist)):
+                doc+=("- " + lilist[i].getText() + "\n")
+            doc+="\n"
 
     return doc
 
