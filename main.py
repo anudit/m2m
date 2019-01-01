@@ -8,7 +8,7 @@ https://medium.com/@jimmysong/why-blockchain-is-hard-60416ea4c5c"
 '''
 
 import requests
-from bs4 import BeautifulSoup
+import bs4
 from urllib.parse import urlparse
 import os
 import urllib
@@ -16,12 +16,12 @@ import re
 
 def parseArticle(soup):
     samples = soup.find_all("div", "section-inner")
-    tags = samples[0].find_all(['h1','h2','h3','h4','ol','ul','blockquote','figure','p'])
+    tags = samples[0].find_all(['h1','h2','h3','h4','ol','ul','blockquote','figure','p', 'pre'])
 
     doc = ""
 
     for i in tags:
-        print(i.name)
+        #print(i.name)
         if (i.name == "h1"):
             doc+=("# " + i.getText() + "\n")
         elif (i.name == "h2"):
@@ -44,15 +44,22 @@ def parseArticle(soup):
         elif (i.name == "ol"):
             doc+="\n"
             lilist = i.find_all('li')
-            for i in range(len(lilist)):
-                doc+=(str(i+1) +". " + lilist[i].getText() + "\n")
+            for t in range(len(lilist)):
+                doc+=(str(t+1) +". " + lilist[t].getText() + "\n")
             doc+="\n"
         elif (i.name == "ul"):
             doc+="\n"
             lilist = i.find_all('li')
-            for i in range(len(lilist)):
-                doc+=("- " + lilist[i].getText() + "\n")
+            for t in range(len(lilist)):
+                doc+=("- " + lilist[t].getText() + "\n")
             doc+="\n"
+        elif (i.name == "pre"):
+            doc+="\n"
+            doc+="```\n"
+            for e in i.contents:
+                if(type(e) == bs4.element.NavigableString):
+                    doc+=str(e)+"\n"
+            doc+= "``` \n"
 
     return doc
 
@@ -74,7 +81,7 @@ if (parsed_uri.netloc != "medium.com"):
 print("Parsing Article")
 
 result = requests.get(LINK)
-soup = BeautifulSoup(result.content, features="html.parser")
+soup = bs4.BeautifulSoup(result.content, features="html.parser")
 fn  = soup.title.string
 forb = '<>:/\|?*'
 fn = ''.join(c for c in fn if c not in forb)
