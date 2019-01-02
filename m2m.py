@@ -4,6 +4,7 @@ import os
 import urllib
 import argparse
 import time
+import shutil
 
 def parseArticle(soup):
     sec = soup.find_all("div", "section-inner")
@@ -129,12 +130,29 @@ OFFLINEMODE = False
 parser = argparse.ArgumentParser()
 parser.add_argument('-y', action='store_true')
 parser.add_argument('-o', action='store_true')
+parser.add_argument('-d', action='store_true')
 options = parser.parse_args()
 
 if(options.y == True):
     FORCECONTINUE = True
 if(options.o == True):
     OFFLINEMODE = True
+if(options.d == True):
+    if(FORCECONTINUE):
+        print("Deleting...")
+        shutil.rmtree("./" + FOLDERNAME+"/")
+        print("Done.")
+        exit()
+    else:
+        ans = input("Delete All Donwloaded Articles ? (Y/N) : ")
+        if (ans.lower() != "y"):
+            exit()
+        else:
+            print("Deleting...")
+            shutil.rmtree("./" + FOLDERNAME+"/")
+            print("Done.")
+            exit()
+
 
 LINK = input("Medium Article Link : ")
 

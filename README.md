@@ -3,10 +3,11 @@
 ## Usage
 Use `python m2m.py` to convert any medium article to Markdown.
 
-| Arguments     | Meaning                 | Usage                  |
-|:-------------:|:-----------------------:|:----------------------:|
-| -y            |Say Yes to All Questions |`python m2m.py -y`      |
-| -o            |Complete Offline Mode    |`python m2m.py -o`      |
+| Arguments     | Description                   | Usage                  |
+|:-------------:|:-----------------------------:|:----------------------:|
+| -y            |Say Yes to All Questions       |`python m2m.py -y`      |
+| -o            |Complete Offline Mode          |`python m2m.py -o`      |
+| -d            |Delete All Downloaded Articles |`python m2m.py -d -y`   |
 
 ## Tested Links
 
