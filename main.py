@@ -51,7 +51,8 @@ def parseArticle(soup):
                 doc+=(">" + i.getText() + "\n\n")
             elif (i.name == "figure"):
                 im = i.find("img")
-                doc+=("![](" +im['src'] +")" + "\n\n")
+                cap = i.find("figcaption")
+                doc+=("[!["+ cap.getText() +"](" +im['src'] +")]("+ cap.find("a")['href'] +")" + "\n\n")
             elif (i.name == "ol"):
                 doc+="\n"
                 lilist = i.find_all('li')

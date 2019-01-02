@@ -1,4 +1,4 @@
-# Converts a Medium article to Markdown
+# Converts a Medium Article to Markdown
 
 Use `python main.py` to convert any medium article to Markdown.
 
