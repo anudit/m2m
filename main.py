@@ -39,6 +39,10 @@ def parseArticle(soup):
                         doc+=str(e)
                     elif (type(e) == bs4.element.Tag and e.name == "a"):
                         doc+="["+ e.getText() +"]("+ e['href'] +")"
+                    elif ((type(e) == bs4.element.Tag) and (e.name == "b" or e.name == "strong")):
+                        doc+="**"+ e.getText() +"**"
+                    elif ((type(e) == bs4.element.Tag) and (e.name == "i" or e.name == "em")):
+                            doc+="*"+ e.getText() +"*"
                 doc+=("\n\n")
             elif (i.name == "blockquote"):
                 doc+=(">" + i.getText() + "\n\n")
@@ -49,14 +53,33 @@ def parseArticle(soup):
                 doc+="\n"
                 lilist = i.find_all('li')
                 for t in range(len(lilist)):
-                    doc+=(str(t+1) +". " + lilist[t].getText() + "\n")
+                    doc+=str(t+1) +". "
+                    for e in lilist[t].contents:
+                        if(type(e) == bs4.element.NavigableString):
+                            doc+=str(e)
+                        elif (type(e) == bs4.element.Tag and e.name == "a"):
+                            doc+="["+ e.getText() +"]("+ e['href'] +")"
+                        elif ((type(e) == bs4.element.Tag) and (e.name == "b" or e.name == "strong")):
+                            doc+="**"+ e.getText() +"**"
+                        elif ((type(e) == bs4.element.Tag) and (e.name == "i" or e.name == "em")):
+                            doc+="*"+ e.getText() +"*"
+                    doc+= "\n"
                 doc+="\n"
             elif (i.name == "ul"):
                 doc+="\n"
                 lilist = i.find_all('li')
                 for t in range(len(lilist)):
-                    doc+=("- " + lilist[t].getText() + "\n")
-                doc+="\n"
+                    doc+="- "
+                    for e in lilist[t].contents:
+                        if(type(e) == bs4.element.NavigableString):
+                            doc+=str(e)
+                        elif (type(e) == bs4.element.Tag and e.name == "a"):
+                            doc+="["+ e.getText() +"]("+ e['href'] +")"
+                        elif ((type(e) == bs4.element.Tag) and (e.name == "b" or e.name == "strong")):
+                            doc+="**"+ e.getText() +"**"
+                        elif ((type(e) == bs4.element.Tag) and (e.name == "i" or e.name == "em")):
+                            doc+="*"+ e.getText() +"*"
+                doc+= "\n"
             elif (i.name == "pre"):
                 doc+="\n"
                 doc+="```\n"
