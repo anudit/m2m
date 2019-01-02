@@ -40,9 +40,9 @@ def parseArticle(soup):
                     elif (type(e) == bs4.element.Tag and e.name == "a"):
                         doc+="["+ e.getText() +"]("+ e['href'] +")"
                     elif ((type(e) == bs4.element.Tag) and (e.name == "b" or e.name == "strong")):
-                        doc+="**"+ e.getText() +"**"
+                        doc+="**"+ e.getText() +"** "
                     elif ((type(e) == bs4.element.Tag) and (e.name == "i" or e.name == "em")):
-                            doc+="*"+ e.getText() +"*"
+                            doc+="*"+ e.getText() +"* "
                 doc+=("\n\n")
             elif (i.name == "blockquote"):
                 doc+=(">" + i.getText() + "\n\n")
@@ -60,9 +60,9 @@ def parseArticle(soup):
                         elif (type(e) == bs4.element.Tag and e.name == "a"):
                             doc+="["+ e.getText() +"]("+ e['href'] +")"
                         elif ((type(e) == bs4.element.Tag) and (e.name == "b" or e.name == "strong")):
-                            doc+="**"+ e.getText() +"**"
+                            doc+="**"+ e.getText() +"** "
                         elif ((type(e) == bs4.element.Tag) and (e.name == "i" or e.name == "em")):
-                            doc+="*"+ e.getText() +"*"
+                            doc+="*"+ e.getText() +"* "
                     doc+= "\n"
                 doc+="\n"
             elif (i.name == "ul"):
@@ -76,9 +76,9 @@ def parseArticle(soup):
                         elif (type(e) == bs4.element.Tag and e.name == "a"):
                             doc+="["+ e.getText() +"]("+ e['href'] +")"
                         elif ((type(e) == bs4.element.Tag) and (e.name == "b" or e.name == "strong")):
-                            doc+="**"+ e.getText() +"**"
+                            doc+="**"+ e.getText() +"** "
                         elif ((type(e) == bs4.element.Tag) and (e.name == "i" or e.name == "em")):
-                            doc+="*"+ e.getText() +"*"
+                            doc+="*"+ e.getText() +"* "
                 doc+= "\n"
             elif (i.name == "pre"):
                 doc+="\n"
@@ -121,7 +121,7 @@ if(os.path.exists("Articles") != True):
 
 
 if (os.path.exists(FILENAME) == True):
-    ans = input("Article already exists, download again? (Y/N) ")
+    ans = input("Article already exists, Continue? (Y/N) ")
     if (ans.lower() == "y"):
         try:
             with open(FILENAME, "w", encoding="utf8") as file:     
