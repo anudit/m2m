@@ -2,7 +2,7 @@
 TEST DATA:
 
 https://medium.com/textileio/five-projects-that-are-decentralizing-the-web-in-slightly-different-ways-debf0fda286a
-
+https://hackernoon.com/17-small-but-powerful-shifts-every-company-should-make-in-their-messaging-d9bb33bb62ed
 https://medium.com/@jimmysong/why-blockchain-is-hard-60416ea4c5c"
 
 '''
@@ -40,9 +40,13 @@ def parseArticle(soup):
                     elif (type(e) == bs4.element.Tag and e.name == "a"):
                         doc+="["+ e.getText() +"]("+ e['href'] +")"
                     elif ((type(e) == bs4.element.Tag) and (e.name == "b" or e.name == "strong")):
-                        doc+="**"+ e.getText() +"** "
+                            temptext = str(e.getText())
+                            temptext = temptext.strip()
+                            doc+="**"+ temptext +"** "
                     elif ((type(e) == bs4.element.Tag) and (e.name == "i" or e.name == "em")):
-                            doc+="*"+ e.getText() +"* "
+                        temptext = str(e.getText())
+                        temptext = temptext.strip()
+                        doc+="*"+ temptext +"* "
                 doc+=("\n\n")
             elif (i.name == "blockquote"):
                 doc+=(">" + i.getText() + "\n\n")
@@ -60,9 +64,13 @@ def parseArticle(soup):
                         elif (type(e) == bs4.element.Tag and e.name == "a"):
                             doc+="["+ e.getText() +"]("+ e['href'] +")"
                         elif ((type(e) == bs4.element.Tag) and (e.name == "b" or e.name == "strong")):
-                            doc+="**"+ e.getText() +"** "
+                            temptext = str(e.getText())
+                            temptext = temptext.strip()
+                            doc+="**"+ temptext +"** "
                         elif ((type(e) == bs4.element.Tag) and (e.name == "i" or e.name == "em")):
-                            doc+="*"+ e.getText() +"* "
+                            temptext = str(e.getText())
+                            temptext = temptext.strip()
+                            doc+="*"+ temptext +"* "
                     doc+= "\n"
                 doc+="\n"
             elif (i.name == "ul"):
@@ -76,9 +84,13 @@ def parseArticle(soup):
                         elif (type(e) == bs4.element.Tag and e.name == "a"):
                             doc+="["+ e.getText() +"]("+ e['href'] +")"
                         elif ((type(e) == bs4.element.Tag) and (e.name == "b" or e.name == "strong")):
-                            doc+="**"+ e.getText() +"** "
+                            temptext = str(e.getText())
+                            temptext = temptext.strip()
+                            doc+="**"+ temptext +"** "
                         elif ((type(e) == bs4.element.Tag) and (e.name == "i" or e.name == "em")):
-                            doc+="*"+ e.getText() +"* "
+                            temptext = str(e.getText())
+                            temptext = temptext.strip()
+                            doc+="*"+ temptext +"* "
                 doc+= "\n"
             elif (i.name == "pre"):
                 doc+="\n"
