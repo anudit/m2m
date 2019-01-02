@@ -1,8 +1,18 @@
 # Converts a Medium Article to Markdown
 
-Use `python main.py` to convert any medium article to Markdown.
+## Usage
+Use `python m2m.py` to convert any medium article to Markdown.
 
-| Arguments     | Meaning                 | Usage                   |
-|:-------------:|:-----------------------:|:-----------------------:|
-| -y            |Say Yes to All Questions |`python main.py -y`      |
-| -o            |Complete Offline Mode    |`python main.py -o`      |
+| Arguments     | Meaning                 | Usage                  |
+|:-------------:|:-----------------------:|:----------------------:|
+| -y            |Say Yes to All Questions |`python m2m.py -y`      |
+| -o            |Complete Offline Mode    |`python m2m.py -o`      |
+
+## Tested Links
+
+```
+https://medium.com/textileio/five-projects-that-are-decentralizing-the-web-in-slightly-different-ways-debf0fda286a
+https://hackernoon.com/17-small-but-powerful-shifts-every-company-should-make-in-their-messaging-d9bb33bb62ed
+https://medium.com/@jimmysong/why-blockchain-is-hard-60416ea4c5c
+https://medium.com/nearprotocol/the-authoritative-guide-to-blockchain-sharding-part-1-1b53ed31e060
+```

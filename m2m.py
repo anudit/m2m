@@ -1,18 +1,9 @@
-'''
-TEST DATA:
-
-https://medium.com/textileio/five-projects-that-are-decentralizing-the-web-in-slightly-different-ways-debf0fda286a
-https://hackernoon.com/17-small-but-powerful-shifts-every-company-should-make-in-their-messaging-d9bb33bb62ed
-https://medium.com/@jimmysong/why-blockchain-is-hard-60416ea4c5c
-https://medium.com/nearprotocol/the-authoritative-guide-to-blockchain-sharding-part-1-1b53ed31e060
-
-'''
-
 import requests
 import bs4
 import os
 import urllib
 import argparse
+import time
 
 def parseArticle(soup):
     sec = soup.find_all("div", "section-inner")
@@ -53,10 +44,30 @@ def parseArticle(soup):
             elif (i.name == "figure"):
                 im = i.find("img")
                 cap = i.find("figcaption")
-                if(cap):
-                    doc+=("[!["+ cap.getText() +"](" +im['src'] +")]("+ cap.find("a")['href'] +")" + "\n\n")
+                if (OFFLINEMODE != True):
+                    if(cap!= None and cap.find("a")!= None):
+                        doc+=("[!["+ cap.getText() +"](" +im['src'] +")]("+ cap.find("a")['href'] +")" + "\n\n")
+                    else:
+                        doc+=("![](" +im['src'] +")\n\n")
                 else:
-                    doc+=("![](" +im['src'] +")\n\n")
+                    filen = str(time.time()*10000) + ".jpg"
+
+                    NARTICLENAME  = ARTICLENAME
+                    NARTICLENAME = ''.join(c for c in NARTICLENAME if c not in " ")
+
+                    fileurl = "./"+ FOLDERNAME +"/" + NARTICLENAME + "/" + filen
+                    if(os.path.exists("./"+ FOLDERNAME +"/" + NARTICLENAME + "/") != True):
+                        os.mkdir("./"+ FOLDERNAME +"/" + NARTICLENAME)
+
+                    img = open(fileurl,'wb')
+                    img.write(requests.get(im['src']).content)
+                    img.close()
+                    mdurl = "./" + NARTICLENAME + "/" + filen
+                    if(cap!= None and cap.find("a")!= None):
+                        doc+=("[!["+ cap.getText() +"](" + mdurl +")]("+ cap.find("a")['href'] +")" + "\n\n")
+                    else:
+                        doc+=("![](" +mdurl +")\n\n")
+
             elif (i.name == "ol"):
                 doc+="\n"
                 lilist = i.find_all('li')
@@ -108,6 +119,8 @@ def parseArticle(soup):
     return doc
 
 ENDINGQUOTE = "Done, Happy Reading!"
+FOLDERNAME = "Articles"
+ARTICLENAME = ""
 FORCECONTINUE = False
 OFFLINEMODE = False
 
@@ -119,8 +132,7 @@ options = parser.parse_args()
 if(options.y == True):
     FORCECONTINUE = True
 if(options.o == True):
-    print("Offline Mode is Under the Works")
-    #OFFLINEMODE = True
+    OFFLINEMODE = True
 
 LINK = input("Medium Article Link : ")
 
@@ -145,9 +157,10 @@ fn  = soup.title.string
 forb = '<>:/\|?*'
 fn = ''.join(c for c in fn if c not in forb)
 FILENAME = "./Articles/" + fn[0:252] + ".md"
+ARTICLENAME = fn[0:252]
 
-if(os.path.exists("Articles") != True):
-    os.mkdir("Articles")
+if(os.path.exists(FOLDERNAME) != True):
+    os.mkdir(FOLDERNAME)
 
 if (os.path.exists(FILENAME) == True and FORCECONTINUE != True):
     ans = input("Article already exists, Continue? (Y/N) ")
@@ -158,7 +171,7 @@ if (os.path.exists(FILENAME) == True and FORCECONTINUE != True):
                 print(ENDINGQUOTE)  
                 exit()
         except IOError:
-            print("[File Error] Can't write to File.")
+            print("[File Error] Can't write to File. -1")
             exit()
     else:
         exit()
@@ -169,5 +182,5 @@ else:
             print(ENDINGQUOTE)
             exit()
     except IOError:
-        print("[File Error] Can't write to File.")
+        print("[File Error] Can't write to File. -2")
         exit()
