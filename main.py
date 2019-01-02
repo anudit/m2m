@@ -95,7 +95,7 @@ def parseArticle(soup):
                             temptext = str(e.getText())
                             temptext = temptext.strip()
                             doc+="*"+ temptext +"* "
-                doc+= "\n"
+                doc+= "\n\n"
             elif (i.name == "pre"):
                 doc+="\n"
                 doc+="```\n"
@@ -107,15 +107,20 @@ def parseArticle(soup):
                 doc+="\n---\n"
     return doc
 
-
+ENDINGQUOTE = "Done, Happy Reading!"
 FORCECONTINUE = False
+OFFLINEMODE = False
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-f', action='store_true')
+parser.add_argument('-y', action='store_true')
+parser.add_argument('-o', action='store_true')
 options = parser.parse_args()
 
-if(options.f == True):
+if(options.y == True):
     FORCECONTINUE = True
+if(options.o == True):
+    print("Offline Mode is Under the Works")
+    #OFFLINEMODE = True
 
 LINK = input("Medium Article Link : ")
 
@@ -128,7 +133,7 @@ if (r.status_code != 200):
 
 parsed_uri = urllib.parse.urlparse(LINK)
 if (parsed_uri.netloc != "medium.com" and FORCECONTINUE != True):
-    ans = input("Not a Medium Link, Continue? (Y/N) ")
+    ans = input("Not a Medium Domain, Continue? (Y/N) ")
     if (ans.lower() != "y"):
         exit()
 
@@ -141,10 +146,8 @@ forb = '<>:/\|?*'
 fn = ''.join(c for c in fn if c not in forb)
 FILENAME = "./Articles/" + fn[0:252] + ".md"
 
-
 if(os.path.exists("Articles") != True):
     os.mkdir("Articles")
-
 
 if (os.path.exists(FILENAME) == True and FORCECONTINUE != True):
     ans = input("Article already exists, Continue? (Y/N) ")
@@ -152,7 +155,7 @@ if (os.path.exists(FILENAME) == True and FORCECONTINUE != True):
         try:
             with open(FILENAME, "w", encoding="utf8") as file:     
                 file.write(parseArticle(soup))
-                print("Done, Happy Reading!")  
+                print(ENDINGQUOTE)  
                 exit()
         except IOError:
             print("[File Error] Can't write to File.")
@@ -163,7 +166,7 @@ else:
     try:
         with open(FILENAME, "w", encoding="utf8") as file:
             file.write(parseArticle(soup))
-            print("Done, Happy Reading!")
+            print(ENDINGQUOTE)
             exit()
     except IOError:
         print("[File Error] Can't write to File.")
