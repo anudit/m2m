@@ -34,7 +34,12 @@ def parseArticle(soup):
             elif (i.name == "h6"):
                 doc+=("##### " + i.getText() + "\n")
             elif (i.name == "p"):
-                doc+=(i.getText() + "\n\n")
+                for e in i.contents:
+                    if(type(e) == bs4.element.NavigableString):
+                        doc+=str(e)
+                    elif (type(e) == bs4.element.Tag and e.name == "a"):
+                        doc+="["+ e.getText() +"]("+ e['href'] +")"
+                doc+=("\n\n")
             elif (i.name == "blockquote"):
                 doc+=(">" + i.getText() + "\n\n")
             elif (i.name == "figure"):
