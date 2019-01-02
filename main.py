@@ -3,7 +3,8 @@ TEST DATA:
 
 https://medium.com/textileio/five-projects-that-are-decentralizing-the-web-in-slightly-different-ways-debf0fda286a
 https://hackernoon.com/17-small-but-powerful-shifts-every-company-should-make-in-their-messaging-d9bb33bb62ed
-https://medium.com/@jimmysong/why-blockchain-is-hard-60416ea4c5c"
+https://medium.com/@jimmysong/why-blockchain-is-hard-60416ea4c5c
+https://medium.com/nearprotocol/the-authoritative-guide-to-blockchain-sharding-part-1-1b53ed31e060
 
 '''
 
@@ -52,7 +53,10 @@ def parseArticle(soup):
             elif (i.name == "figure"):
                 im = i.find("img")
                 cap = i.find("figcaption")
-                doc+=("[!["+ cap.getText() +"](" +im['src'] +")]("+ cap.find("a")['href'] +")" + "\n\n")
+                if(cap):
+                    doc+=("[!["+ cap.getText() +"](" +im['src'] +")]("+ cap.find("a")['href'] +")" + "\n\n")
+                else:
+                    doc+=("![](" +im['src'] +")\n\n")
             elif (i.name == "ol"):
                 doc+="\n"
                 lilist = i.find_all('li')
