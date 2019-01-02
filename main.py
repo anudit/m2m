@@ -9,10 +9,9 @@ https://medium.com/@jimmysong/why-blockchain-is-hard-60416ea4c5c"
 
 import requests
 import bs4
-from urllib.parse import urlparse
 import os
 import urllib
-import re
+import argparse
 
 def parseArticle(soup):
     sec = soup.find_all("div", "section-inner")
@@ -103,6 +102,16 @@ def parseArticle(soup):
                 doc+="\n---\n"
     return doc
 
+
+FORCECONTINUE = False
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-f', action='store_true')
+options = parser.parse_args()
+
+if(options.f == True):
+    FORCECONTINUE = True
+
 LINK = input("Medium Article Link : ")
 
 print("Checking Link")
@@ -112,8 +121,8 @@ if (r.status_code != 200):
     print("Invalid Link")
     exit()
 
-parsed_uri = urlparse(LINK)
-if (parsed_uri.netloc != "medium.com"):
+parsed_uri = urllib.parse.urlparse(LINK)
+if (parsed_uri.netloc != "medium.com" and FORCECONTINUE != True):
     ans = input("Not a Medium Link, Continue? (Y/N) ")
     if (ans.lower() != "y"):
         exit()
@@ -132,13 +141,14 @@ if(os.path.exists("Articles") != True):
     os.mkdir("Articles")
 
 
-if (os.path.exists(FILENAME) == True):
+if (os.path.exists(FILENAME) == True and FORCECONTINUE != True):
     ans = input("Article already exists, Continue? (Y/N) ")
     if (ans.lower() == "y"):
         try:
             with open(FILENAME, "w", encoding="utf8") as file:     
                 file.write(parseArticle(soup))
                 print("Done, Happy Reading!")  
+                exit()
         except IOError:
             print("[File Error] Can't write to File.")
             exit()
@@ -146,10 +156,10 @@ if (os.path.exists(FILENAME) == True):
         exit()
 else:
     try:
-        with open(FILENAME, "w", encoding="utf8") as file:     
-            print("Parsing Article")
+        with open(FILENAME, "w", encoding="utf8") as file:
             file.write(parseArticle(soup))
-            print("Done, Happy Reading!")  
+            print("Done, Happy Reading!")
+            exit()
     except IOError:
         print("[File Error] Can't write to File.")
         exit()
