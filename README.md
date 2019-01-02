@@ -1,13 +1,21 @@
 # Converts a Medium Article to Markdown
 
-## Usage
-Use `python m2m.py` to convert any medium article to Markdown.
+## Getting Started
+
+#### Download the [Latest Release](https://github.com/anuditnagar/m2m/releases "Latest Release")
+
+Use `m2m` to convert any medium article to Markdown.
 
 | Arguments     | Description                   | Usage                  |
 |:-------------:|:-----------------------------:|:----------------------:|
-| -y            |Say Yes to All Questions       |`python m2m.py -y`      |
-| -o            |Complete Offline Mode          |`python m2m.py -o`      |
-| -d            |Delete All Downloaded Articles |`python m2m.py -d -y`   |
+| -y            |Say Yes to All Questions       |`m2m -y`                |
+| -o            |Complete Offline Mode          |`m2m -o`                |
+| -d            |Delete All Downloaded Articles |`m2m -d -y`             |
+
+## Running from Source
+
+1. Run `git clone https://github.com/anuditnagar/m2m.git` to download the Source Code
+2. Run `python m2m.py` to start converting.
 
 ## Tested Links
 

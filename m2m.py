@@ -5,6 +5,7 @@ import urllib
 import argparse
 import time
 import shutil
+import sys
 
 def parseArticle(soup):
     sec = soup.find_all("div", "section-inner")
@@ -142,16 +143,16 @@ if(options.d == True):
         print("Deleting...")
         shutil.rmtree("./" + FOLDERNAME+"/")
         print("Done.")
-        exit()
+        sys.exit(0)
     else:
         ans = input("Delete All Donwloaded Articles ? (Y/N) : ")
         if (ans.lower() != "y"):
-            exit()
+            sys.exit(0)
         else:
             print("Deleting...")
             shutil.rmtree("./" + FOLDERNAME+"/")
             print("Done.")
-            exit()
+            sys.exit(0)
 
 
 LINK = input("Medium Article Link : ")
@@ -161,13 +162,13 @@ print("Checking Link")
 r = requests.get(LINK)
 if (r.status_code != 200):
     print("Invalid Link")
-    exit()
+    sys.exit(0)
 
 parsed_uri = urllib.parse.urlparse(LINK)
 if (parsed_uri.netloc != "medium.com" and FORCECONTINUE != True):
     ans = input("Not a Medium Domain, Continue? (Y/N) ")
     if (ans.lower() != "y"):
-        exit()
+        sys.exit(0)
 
 print("Parsing Article")
 
@@ -189,18 +190,18 @@ if (os.path.exists(FILENAME) == True and FORCECONTINUE != True):
             with open(FILENAME, "w", encoding="utf8") as file:     
                 file.write(parseArticle(soup))
                 print(ENDINGQUOTE)  
-                exit()
+                sys.exit(0)
         except IOError:
             print("[File Error] Can't write to File. -1")
-            exit()
+            sys.exit(0)
     else:
-        exit()
+        sys.exit(0)
 else:
     try:
         with open(FILENAME, "w", encoding="utf8") as file:
             file.write(parseArticle(soup))
             print(ENDINGQUOTE)
-            exit()
+            sys.exit(0)
     except IOError:
         print("[File Error] Can't write to File. -2")
-        exit()
+        sys.exit(0)
