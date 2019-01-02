@@ -55,14 +55,16 @@ def parseArticle(soup):
                     NARTICLENAME  = ARTICLENAME
                     NARTICLENAME = ''.join(c for c in NARTICLENAME if c not in " ")
 
-                    fileurl = "./"+ FOLDERNAME +"/" + NARTICLENAME + "/" + filen
-                    if(os.path.exists("./"+ FOLDERNAME +"/" + NARTICLENAME + "/") != True):
-                        os.mkdir("./"+ FOLDERNAME +"/" + NARTICLENAME)
+                    fileurl = "./"+ FOLDERNAME +"/OfflineData/" + NARTICLENAME + "/" + filen
+                    if(os.path.exists("./"+ FOLDERNAME +"/OfflineData/") != True):
+                        os.mkdir("./"+ FOLDERNAME +"/OfflineData/")
+                        if(os.path.exists("./"+ FOLDERNAME +"/OfflineData/" + NARTICLENAME + "/") != True):
+                            os.mkdir("./"+ FOLDERNAME +"/OfflineData/" + NARTICLENAME)
 
                     img = open(fileurl,'wb')
                     img.write(requests.get(im['src']).content)
                     img.close()
-                    mdurl = "./" + NARTICLENAME + "/" + filen
+                    mdurl = "./OfflineData/" + NARTICLENAME + "/" + filen
                     if(cap!= None and cap.find("a")!= None):
                         doc+=("[!["+ cap.getText() +"](" + mdurl +")]("+ cap.find("a")['href'] +")" + "\n\n")
                     else:
@@ -156,7 +158,7 @@ soup = bs4.BeautifulSoup(result.content, features="html.parser")
 fn  = soup.title.string
 forb = '<>:/\|?*'
 fn = ''.join(c for c in fn if c not in forb)
-FILENAME = "./Articles/" + fn[0:252] + ".md"
+FILENAME = "./" + FOLDERNAME + "/" + fn[0:252] + ".md"
 ARTICLENAME = fn[0:252]
 
 if(os.path.exists(FOLDERNAME) != True):
